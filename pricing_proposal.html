@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <title>અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન - AMC સેવા પોર્ટલ API & WhatsApp બિલિંગ વિશ્લેષણ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 14mm 12mm 14mm 12mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Gujarati', sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    .header-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #047857 60%, #059669 100%);
+      color: white;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .header-title h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #a7f3d0;
+      margin-bottom: 6px;
+    }
+
+    .header-title p {
+      font-size: 12px;
+      color: #e2e8f0;
+      opacity: 0.9;
+    }
+
+    .header-badge {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-align: right;
+    }
+
+    .header-badge .tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fde047;
+      font-weight: 700;
+    }
+
+    .header-badge .date {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 2px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #064e3b;
+      border-left: 4px solid #047857;
+      padding-left: 10px;
+      margin: 22px 0 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title .en-sub {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      border-top: 3px solid #047857;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .stat-desc {
+      font-size: 10.5px;
+      color: #059669;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 8px;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .highlight-row {
+      background: #ecfdf5 !important;
+      font-weight: 700;
+    }
+
+    .badge-green {
+      background: #d1fae5;
+      color: #065f46;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .badge-blue {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .badge-amber {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-block;
+    }
+
+    .badge-free {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-block;
+    }
+
+    .alert-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 12px;
+      color: #1e3a8a;
+    }
+
+    .alert-success {
+      background: #ecfdf5;
+      border-left: 4px solid #10b981;
+      color: #065f46;
+    }
+
+    .alert-warning {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      color: #92400e;
+    }
+
+    .grand-total-box {
+      background: linear-gradient(135deg, #064e3b, #047857);
+      color: white;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    ul.clean-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.clean-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    ul.clean-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-weight: bold;
+    }
+
+    .footer {
+      margin-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <!-- HEADER -->
+  <div class="header-banner">
+    <div class="header-title">
+      <h1>અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન (AMC)</h1>
+      <h2>AMC સેવા પોર્ટલ & WhatsApp ઓટોમેશન - ખર્ચ & API બિલિંગ ગાઈડ</h2>
+      <p>સંપૂર્ણ પેઇડ API, WhatsApp ક્લાઉડ મેસેજિંગ ચાર્જ અને સર્વર ઇન્ફ્રાસ્ટ્રક્ચર બજેટ રિપોર્ટ</p>
+    </div>
+    <div class="header-badge">
+      <div class="tag">ઓફિશિયલ બજેટ પ્લાન</div>
+      <div class="date">વર્ષ ૨૦૨૬ - ૨૦૨૭</div>
+      <div style="font-size: 10px; color: #cbd5e1; margin-top: 3px;">કરન્સી: INR (₹)</div>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="card" style="background: #f0fdf4; border-color: #bbf7d0;">
+    <div style="font-weight: 700; color: #166534; font-size: 13.5px; margin-bottom: 6px;">
+      📋 કાર્યકારી સારાંશ (Executive Summary)
+    </div>
+    <p style="color: #15803d; font-size: 12px; line-height: 1.6;">
+      આ AMC સેવા પોર્ટલ અત્યંત આધુનિક અને લાઈટવેઈટ ટેકનોલોજી પર તૈયાર કરવામાં આવેલ છે. મેપિંગ (Leaflet + OpenStreetMap) અને ઓન-સ્ક્રીન વોઇસ સ્પીચ API ૧૦૦% ફ્રી છે. મુખ્ય માસિક રિકરિંગ ખર્ચ માત્ર <strong>Meta WhatsApp Cloud API</strong> (જે નાગરિકોને કમ્પ્લેઇન્ટ નંબર, ફોટો અને અપડેટ્સ મોકલે છે) અને <strong>ક્લાઉડ હોસ્ટિંગ સર્વર</strong> પર આધારિત છે. નીચે દરેક સ્તર મુજબ પારદર્શક ગણતરી આપેલ છે.
+    </p>
+  </div>
+
+  <!-- SECTION 1: WHATSAPP CLOUD API CHARGES -->
+  <div class="section-title">
+    <span>૧. WhatsApp બિઝનેસ Cloud API ના નિયમો અને દર (Meta 2026 Rates)</span>
+    <span class="en-sub">Official Meta Conversation Pricing (India)</span>
+  </div>
+
+  <div class="card">
+    <p style="font-size: 12px; color: #475569; margin-bottom: 10px;">
+      Meta (Facebook) WhatsApp API માં મેસેજ દીઠ નહીં પરંતુ <strong>૨૪-કલાકની વાતચીત સેશન (Conversation Window)</strong> મુજબ ચાર્જ કરે છે. એક સેશનમાં નાગરિક ગમે તેટલા મેસેજ કરે, માત્ર એક જ વાર ચાર્જ લાગે છે:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>મેસેજનો પ્રકાર (Conversation Type)</th>
+          <th>વર્ણન અને ઉપયોગ</th>
+          <th>દર (પ્રતિ ૨૪ કલાક)</th>
+          <th>ખાસ છૂટછાટ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>સર્વિસ મેસેજ (Service / User-Initiated)</strong><br>
+            <span class="badge-blue">Citizen Starts Chat</span>
+          </td>
+          <td>જ્યારે નાગરિક સામેથી WhatsApp પર "Hi" અથવા ફરિયાદ મોકલે અને સિસ્ટમ જવાબ આપે.</td>
+          <td><strong>₹ ૦.૩૫</strong> / સેશન</td>
+          <td><span class="badge-green">દર મહિને પ્રથમ ૧,૦૦૦ સેશન ૧૦૦% મફત!</span></td>
+        </tr>
+        <tr>
+          <td>
+            <strong>યુટિલિટી મેસેજ (Utility Template)</strong><br>
+            <span class="badge-green">AMC Status Alerts</span>
+          </td>
+          <td>ફરિયાદ નોંધણી ટોકન (Token ID), સુપરવાઇઝર ફાળવણી અને નિકાલનો ફોટો-મેસેજ.</td>
+          <td><strong>₹ ૦.૧૧૫</strong> / સેશન</td>
+          <td>Meta નો સૌથી સસ્તો અને જરૂરી કેટેગરી દર</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>ઓથેન્ટિકેશન (OTP Verification)</strong><br>
+            <span class="badge-amber">Security OTP</span>
+          </td>
+          <td>મોબાઇલ નંબર વેરિફિકેશન માટે ૬ આંકડાનો સુરક્ષિત WhatsApp OTP.</td>
+          <td><strong>₹ ૦.૧૨૫</strong> / OTP</td>
+          <td>DLT SMS કરતાં પણ વધુ ઝડપી અને સુરક્ષિત</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>માર્કેટિંગ મેસેજ (Marketing / Broadcast)</strong><br>
+            <span class="badge-amber">Public Announcements</span>
+          </td>
+          <td>સ્વચ્છતા અભિયાન કે તહેવારની જાહેરાતો (પોર્ટલ માટે વૈકલ્પિક - ફરજિયાત નથી).</td>
+          <td><strong>₹ ૦.૭૮</strong> / મેસેજ</td>
+          <td>સામાન્ય ફરિયાદ પોર્ટલમાં આની જરૂર નથી</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 2: VOLUME BASED MONTHLY BILL SIMULATOR -->
+  <div class="section-title">
+    <span>૨. નાગરિકોના વપરાશ મુજબ માસિક WhatsApp બિલ ગણતરી (વોલ્યુમ સિમ્યુલેશન)</span>
+    <span class="en-sub">Monthly WhatsApp Bill Projection by Citizen Count</span>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>માસિક ફરિયાદો / નાગરિકો</th>
+          <th>સર્વિસ ચેટ્સ (Citizen Hi)</th>
+          <th>યુટિલિટી એલર્ટ્સ (Token + Solved)</th>
+          <th>અંદાજિત માસિક WhatsApp બિલ</th>
+          <th>પ્રતિ ફરિયાદ સરેરાશ ખર્ચ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>૫,૦૦૦ નાગરિકો / માસ</strong><br><span style="color:#64748b; font-size:10px;">શરૂઆતનો તબક્કો (પાઇલોટ)</span></td>
+          <td>૪,૦૦૦ × ₹૦.૩૫ = ₹૧,૪૦૦<br><small style="color:#059669;">(૧,૦૦૦ મફત બાદ કર્યા પછી)</small></td>
+          <td>૫,૦૦૦ × ₹૦.૧૧૫ = ₹૫૭૫</td>
+          <td><strong style="color:#047857; font-size: 14px;">₹ ૧,૯૭૫ / મહિને</strong></td>
+          <td><span class="badge-green">માત્ર ₹ ૦.૩૯</span></td>
+        </tr>
+        <tr>
+          <td><strong>૧૦,૦૦૦ નાગરિકો / માસ</strong><br><span style="color:#64748b; font-size:10px;">સામાન્ય વોર્ડ લેવલ વપરાશ</span></td>
+          <td>૯,૦૦૦ × ₹૦.૩૫ = ₹૩,૧૫૦</td>
+          <td>૧૦,૦૦૦ × ₹૦.૧૧૫ = ₹૧,૧૫૦</td>
+          <td><strong style="color:#047857; font-size: 14px;">₹ ૪,૩૦૦ / મહિને</strong></td>
+          <td><span class="badge-green">માત્ર ₹ ૦.૪૩</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>૨૫,૦૦૦ નાગરિકો / માસ</strong><br><span style="color:#065f46; font-size:10px; font-weight:700;">સમગ્ર ઝોન લેવલ વપરાશ (ભલામણ કરેલ)</span></td>
+          <td>૨૪,૦૦૦ × ₹૦.૩૫ = ₹૮,૪૦૦</td>
+          <td>૨૫,૦૦૦ × ₹૦.૧૧૫ = ₹૨,૮૭૫</td>
+          <td><strong style="color:#065f46; font-size: 15px;">₹ ૧૧,૨૭૫ / મહિને</strong></td>
+          <td><span class="badge-green">માત્ર ₹ ૦.૪૫</span></td>
+        </tr>
+        <tr>
+          <td><strong>૫૦,૦૦૦ નાગરિકો / માસ</strong><br><span style="color:#64748b; font-size:10px;">ચોમાસા કે ભારે સીઝન દરમિયાન</span></td>
+          <td>૪૯,૦૦૦ × ₹૦.૩૫ = ₹૧૭,૧૫૦</td>
+          <td>૫૦,૦૦૦ × ₹૦.૧૧૫ = ₹૫,૭૫૦</td>
+          <td><strong style="color:#047857; font-size: 14px;">₹ ૨૨,૯૦૦ / મહિને</strong></td>
+          <td><span class="badge-green">માત્ર ₹ ૦.૪૫</span></td>
+        </tr>
+        <tr>
+          <td><strong>૧,૦૦,૦૦૦ નાગરિકો / માસ</strong><br><span style="color:#64748b; font-size:10px;">સમગ્ર અમદાવાદ શહેર વ્યાપી મોટો સ્કેલ</span></td>
+          <td>૯૯,૦૦૦ × ₹૦.૩૫ = ₹૩૪,૬૫૦</td>
+          <td>૧,૦૦,૦૦૦ × ₹૦.૧૧૫ = ₹૧૧,૫૦૦</td>
+          <td><strong style="color:#047857; font-size: 14px;">₹ ૪૬,૧૫૦ / મહિને</strong></td>
+          <td><span class="badge-green">માત્ર ₹ ૦.૪૬</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size: 10.5px; color: #64748b; margin-top: 6px;">
+      * નોંધ: સીધા Meta Cloud API વાપરવાથી કોઈ થર્ડ-પાર્ટી પ્લેટફોર્મ માર્જિન લાગતું નથી. આ રકમ સીધી Meta માં ક્રેડિટ કાર્ડ અથવા બિલિંગ દ્વારા જમા થાય છે.
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 3: OTHER PAID & FREE INFRASTRUCTURE APIS -->
+  <div class="section-title">
+    <span>૩. સર્વર, ક્લાઉડ સ્ટોરેજ અને અન્ય પેઇડ/ફ્રી સેવાઓ</span>
+    <span class="en-sub">Complete Infrastructure & 3rd Party Cost Sheet</span>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>સેવા (Service Component)</th>
+          <th>ભલામણ કરેલ પ્રોવાઈડર</th>
+          <th>માસિક ખર્ચ (₹)</th>
+          <th>વાર્ષિક અંદાજ (₹)</th>
+          <th>વિગત / સ્ટેટસ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>ક્લાઉડ હોસ્ટિંગ સર્વર (VPS)</strong><br>
+            <span style="font-size: 10px; color: #64748b;">4 Core CPU, 8GB RAM, SSD NVMe</span>
+          </td>
+          <td>DigitalOcean / AWS Lightsail / Hostinger Cloud</td>
+          <td><strong>₹ ૧,૨૦૦ - ૧,૫૦૦</strong></td>
+          <td>₹ ૧૫,૦૦૦</td>
+          <td>૨૫,૦૦૦+ સક્રિય મુલાકાતીઓ માટે પૂરતી ક્ષમતા</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>ફોટો & દસ્તાવેજ સ્ટોરેજ (S3 / R2)</strong><br>
+            <span style="font-size: 10px; color: #64748b;">નાગરિક ફરિયાદ અને સોલ્વ કરેલ ફોટા</span>
+          </td>
+          <td>Cloudflare R2 / AWS S3 (50 GB ડેટા)</td>
+          <td><strong>₹ ૨૦૦ - ૩૫૦</strong></td>
+          <td>₹ ૩,૦૦૦</td>
+          <td>R2 માં ડાઉનલોડ/બેન્ડવિડ્થ ચાર્જ ૦ છે.</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>SMS DLT ગેટવે (ફોલબેક OTP)</strong><br>
+            <span style="font-size: 10px; color: #64748b;">જો WhatsApp વગર સાદો SMS મોકલવો હોય</span>
+          </td>
+          <td>Fast2SMS / Msg91 (TRAI DLT રજિસ્ટર્ડ)</td>
+          <td><strong>₹ ૩૫૦ - ૫૦૦</strong></td>
+          <td>₹ ૫,૦૦૦</td>
+          <td>₹૦.૧૪/SMS (DLT વન-ટાઇમ સરકારી ચાર્જ ₹૫,૯૦૦ અલગ)</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>ડોમેન નેમ & SSL સુરક્ષા</strong><br>
+            <span style="font-size: 10px; color: #64748b;">amc-seva.in અથવા amcseva.gujarat.gov.in</span>
+          </td>
+          <td>National Internet Exchange (NIXI) / GoDaddy</td>
+          <td>—</td>
+          <td><strong>₹ ૮૫૦ / વર્ષ</strong></td>
+          <td>SSL સર્ટિફિકેટ (Let's Encrypt) <strong>૧૦૦% ફ્રી</strong> છે.</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>લાઈવ મેપ & લોકેશન API</strong><br>
+            <span style="font-size: 10px; color: #64748b;">અમદાવાદ વોર્ડ અને GPS પિનપોઇન્ટર</span>
+          </td>
+          <td>Leaflet JS + OpenStreetMap (OSM)</td>
+          <td><span class="badge-free">૧૦૦% મફત (₹ ૦)</span></td>
+          <td><span class="badge-free">₹ ૦</span></td>
+          <td>Google Maps ની જરૂર નથી; અમે OSM વાપર્યું છે તેથી લાખો ₹ ની બચત!</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>સ્પીચ-ટુ-ટેક્સ્ટ (માઈક્રોફોન બોલીને)</strong><br>
+            <span style="font-size: 10px; color: #64748b;">ગુજરાતી બોલીને લખાણ કરવાની સુવિધા</span>
+          </td>
+          <td>Web Speech Recognition API</td>
+          <td><span class="badge-free">૧૦૦% મફત (₹ ૦)</span></td>
+          <td><span class="badge-free">₹ ૦</span></td>
+          <td>બ્રાઉઝર અને ડિવાઇસનું ઇન-બિલ્ટ એન્જિન વાપરે છે</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 4: DIRECT META VS BSP COMPARISON -->
+  <div class="section-title">
+    <span>૪. WhatsApp API: સીધું Meta vs થર્ડ પાર્ટી પ્લેટફોર્મ (AiSensy, Wati વગેરે)</span>
+    <span class="en-sub">Direct Meta Cloud API vs Business Solution Providers (BSP)</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-top: 3px solid #059669; background: #f0fdf4;">
+      <div style="font-weight: 700; color: #065f46; font-size: 13px; margin-bottom: 6px;">
+        ⭐ ભલામણ કરેલ: સીધું Meta Cloud API (Direct Official)
+      </div>
+      <ul class="clean-list" style="color: #166534;">
+        <li>કોઈપણ માસિક પ્લેટફોર્મ ફી નથી (₹ ૦ સબ્સ્ક્રિપ્શન).</li>
+        <li>માત્ર જેટલા મેસેજ થાય તેટલો જ સત્તાવાર Meta દર લાગે છે.</li>
+        <li>AMC ના પોતાના ફેસબુક બિઝનેસ મેનેજર સાથે ૧૦૦% સરકારી કન્ટ્રોલ.</li>
+        <li>દર મહિને ₹ ૨,૦૦૦ થી ₹ ૪,૦૦૦ સુધીની કાયમી સોફ્ટવેર ફી બચે છે.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-top: 3px solid #64748b;">
+      <div style="font-weight: 700; color: #334155; font-size: 13px; margin-bottom: 6px;">
+        વૈકલ્પિક: થર્ડ-પાર્ટી BSP (AiSensy / Wati / Gupshup)
+      </div>
+      <ul class="clean-list" style="color: #475569;">
+        <li>WhatsApp મેસેજ ખર્ચ ઉપરાંત <strong>₹ ૧,૫૦૦ થી ₹ ૨,૯૯૯/માસ</strong> સોફ્ટવેર ફી.</li>
+        <li>તૈયાર ઈનબોક્સ ડેશબોર્ડ મળે છે (પરંતુ AMC સેવા પોર્ટલ પાસે પોતાનું જ ડેશબોર્ડ પહેલેથી છે).</li>
+        <li>મોટા વોલ્યુમમાં વાર્ષિક ₹ ૨૫,૦૦૦ થી ₹ ૪૦,૦૦૦ નો વધારાનો બિનજરૂરી ખર્ચ થાય છે.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 5: TOTAL MONTHLY & ANNUAL ESTIMATED BUDGET SUMMARY -->
+  <div class="section-title">
+    <span>૫. કુલ અંદાજિત માસિક & વાર્ષિક સંચાલન બજેટ (Total Operational Budget)</span>
+    <span class="en-sub">Consolidated Budget Projections</span>
+  </div>
+
+  <div class="grid-3">
+    <div class="stat-box" style="border-top-color: #3b82f6;">
+      <div class="stat-label">નાનો સ્કેલ (૫,૦૦૦ નાગરિકો/માસ)</div>
+      <div class="stat-value" style="color: #1d4ed8;">₹ ૩,૭૦૦ <span style="font-size: 12px; font-weight: normal;">/ માસ</span></div>
+      <div class="stat-desc">વાર્ષિક બજેટ: ~ ₹ ૪૫,૦૦૦</div>
+      <p style="font-size: 10.5px; color: #64748b; margin-top: 6px;">સર્વર (₹૧,૨૦૦) + સ્ટોરેજ (₹૨૦૦) + WhatsApp (₹૧,૯૭૫) + SMS (₹૩૨૫)</p>
+    </div>
+
+    <div class="stat-box" style="border-top-color: #059669; background: #ecfdf5;">
+      <div class="stat-label" style="color: #065f46; font-weight: 700;">મધ્યમ સ્કેલ (૨૫,૦૦૦ નાગરિકો) ★ મોસ્ટ પ્રેક્ટિકલ</div>
+      <div class="stat-value" style="color: #065f46;">₹ ૧૩,૫૦૦ <span style="font-size: 12px; font-weight: normal;">/ માસ</span></div>
+      <div class="stat-desc" style="color: #047857;">વાર્ષિક બજેટ: ~ ₹ ૧,૬૨,૦૦૦</div>
+      <p style="font-size: 10.5px; color: #065f46; margin-top: 6px;">સર્વર (₹૧,૫૦૦) + સ્ટોરેજ (₹૩૫૦) + WhatsApp (₹૧૧,૨૭૫) + SMS (₹૩૭૫)</p>
+    </div>
+
+    <div class="stat-box" style="border-top-color: #f59e0b;">
+      <div class="stat-label">વિશાળ સિટી સ્કેલ (૫૦,૦૦૦ નાગરિકો)</div>
+      <div class="stat-value" style="color: #b45309;">₹ ૨૫,૫૦૦ <span style="font-size: 12px; font-weight: normal;">/ માસ</span></div>
+      <div class="stat-desc" style="color: #b45309;">વાર્ષિક બજેટ: ~ ₹ ૩,૦૬,૦૦૦</div>
+      <p style="font-size: 10.5px; color: #78350f; margin-top: 6px;">હાઇ-કેપેસિટી સર્વર + લાખો નાગરિક WhatsApp અપડેટ્સ સક્ષમ</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6: CLIENT RECOMMENDATIONS -->
+  <div class="card" style="margin-top: 16px; background: #fffbeb; border-color: #fef3c7;">
+    <div style="font-weight: 700; color: #92400e; font-size: 13px; margin-bottom: 6px;">
+      💡 ક્લાયન્ટ માટે નાણાકીય બચતની ખાસ ભલામણો (Cost Saving Recommendations)
+    </div>
+    <ul class="clean-list" style="color: #78350f;">
+      <li><strong>Google Maps ની જગ્યાએ OpenStreetMap વાપરો:</strong> ગૂગલ મેપ્સ દર ૧,૦૦૦ લોડ પર ₹૪૫૦ કાપે છે, જ્યારે આપણે બનાવેલ ઓપનસ્ટ્રીટમેપ ૧૦૦% ફ્રી છે અને અમદાવાદના તમામ વિસ્તારો બતાવે છે.</li>
+      <li><strong>WhatsApp ૨૪-કલાક સેશનનો લાભ:</strong> જ્યારે નાગરિક ફરિયાદ કરે ત્યારે ૨૪ કલાકમાં જ ટોકન, અધિકારીનું નામ અને વોર્ડ અપડેટ આપી દેવાથી એક જ સેશન દર (₹૦.૩૫) માં બધું પતી જાય છે.</li>
+      <li><strong>ક્લાઉડફ્લેર R2 વાપરવું:</strong> નાગરિકોના કચરા/ખાડાના ફોટા માટે Cloudflare R2 વાપરવાથી બેન્ડવિડ્થ બિલ શૂન્ય (₹ ૦) આવે છે.</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>દસ્તાવેજ સંદર્ભ: AMC-SEVA-TECH-BUDGET-2026-V1</div>
+    <div>અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન સિવિક ઇન્ફ્રાસ્ટ્રક્ચર પ્રોજેક્ટ</div>
+    <div>તારીખ: ૦૩-૧૧-૨૦૨૬ | પેજ ૧ / ૨</div>
+  </div>
+
+</div>
+
+</body>
+</html>
